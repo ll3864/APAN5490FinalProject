@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CareerCompass | Career Survey</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="survey-page">
+
+<header class="survey-header">
+    <div class="logo-row">
+        <div class="logo-icon"></div>
+        <span class="logo-text">CareerCompass</span>
+    </div>
+
+</header>
+
+
+<!-- HERO TITLE -->
+<section class="survey-hero">
+    <h1>Discover the careers that truly fit you</h1>
+    <p class="survey-subtitle">
+        This quick test analyzes your skills, interests, education, and personality to find the careers where you’ll thrive.<br>
+        Takes about 10 minutes to complete
+    </p>
+</section>
+
+
+<!-- MAIN SURVEY BODY -->
+<main class="survey-container">
+
+    <div class="survey-box">
+        <h2 class="survey-section-title">Tell us a bit about your background:</h2>
+
+        <form id="surveyForm">
+
+            <!-- Education -->
+            <div class="survey-question">
+                <label class="question-label">
+                    1. What is your highest level of education?
+                </label>
+                <select name="education" required class="survey-input">
+                    <option>High School</option>
+                    <option>Associate Degree</option>
+                    <option>Bachelor’s Degree</option>
+                    <option>Master’s Degree</option>
+                    <option>PhD</option>
+                </select>
+            </div>
+
+            <!-- Major -->
+            <div class="survey-question">
+                <label class="question-label">
+                    2. What is your major?
+                </label>
+                <div class="autocomplete-tags" id="majorBox">
+                    <input type="text" id="majorInput" placeholder="">
+                    <div class="suggestions" id="majorSuggestions"></div>
+                </div>
+            </div>
+
+            <!-- Technical Skills -->
+            <div class="survey-question">
+                <label class="question-label">
+                    3. What technical skills do you have?
+                </label>
+                <div class="autocomplete-tags" id="techSkillBox">
+                    <input type="text" id="techSkillInput" placeholder="">
+                    <div class="suggestions" id="techSkillSuggestions"></div>
+                </div>
+            </div>
+
+            <!-- Soft Skills -->
+            <div class="survey-question">
+                <label class="question-label">
+                    4. What soft skills describe you best?
+                </label>
+                <div class="autocomplete-tags" id="softSkillBox">
+                    <input type="text" id="softSkillInput" placeholder="">
+                    <div class="suggestions" id="softSkillSuggestions"></div>
+                </div>
+            </div>
+
+            <!-- Industry -->
+            <div class="survey-question">
+                <label class="question-label">
+                    5. Which industry interests you most?
+                </label>
+                <select name="industry" required class="survey-input">
+                    <option>Technology</option>
+                    <option>Finance & Banking</option>
+                    <option>Consulting & Professional Services</option>
+                    <option>E-Commerce & Retail</option>
+                    <option>Health Care & Life Sciences</option>
+                    <option>Media, Entertainment & Advertising</option>
+                    <option>Education & Training</option>
+                    <option>Government & Public Sector</option>
+                    <option>Manufacturing & Industrial</option>
+                    <option>Agriculture & Food Industry</option>
+                    <option>Hospitality, Travel & Tourism</option>
+                    <option>Transportation & Logistics</option>
+                </select>
+            </div>
+
+            <!-- Work Type -->
+            <div class="survey-question">
+                <label class="question-label">
+                    6. Do you prefer tech or non-tech work?
+                </label>
+                <select name="workType" required class="survey-input">
+                    <option>Tech</option>
+                    <option>Non-tech</option>
+                </select>
+            </div>
+
+            <!-- MBTI -->
+            <div class="survey-question">
+                <label class="question-label">
+                    7. What is your MBTI personality type?
+                </label>
+                <input name="mbti" placeholder="e.g., ISTJ, ENFP" required class="survey-input">
+            </div>
+
+            <button type="submit" class="survey-submit-btn">Submit</button>
+        </form>
+    </div>
+</main>
+
+<script src="main.js"></script>
+</body>
+</html>
