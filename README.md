@@ -134,7 +134,7 @@ flowchart TD
 
 The system uses a rule-based weighted scoring approach:
 
-*   **Mechanism**: Compares user attributes against career requirements.
+*   **Mechanism**: Compares user attributes against career requirements.d
 *   **Weighted Factors**:
     *   **Skills Match** (High Weight): Overlap of technical and soft skills.
     *   **Education**: Minimum education level check.
