@@ -40,7 +40,7 @@ CareerCompass is a web application designed to help undergraduate students disco
 *   **Backend Dependencies**: `POST /survey` to save responses.
 
 ### Results Page
-*   **Status**: Functional Prototype.
+*   **Status**: Functional Prototype (UI Redesign In Progress).
 *   **Purpose**: Display algorithmic recommendations.
 *   **Key UI/UX**: Dynamic result cards showing match score, job description, salary data, and skill gap analysis (Have vs. Need).
 *   **Backend Dependencies**: `GET /recommendations/:userId`.

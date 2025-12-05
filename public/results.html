@@ -1,14 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Career Match Results</title>
+    <title>CareerCompass | Your Matches</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="page-results">
 
-<h1>Your Top 3 Career Matches</h1>
+<header class="navbar">
+    <div class="nav-inner">
+        <div class="nav-left">
+            <div class="logo-icon"></div>
+            <span class="logo-text">CareerCompass</span>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">Home Page</a>
+            <a href="faq.html" class="nav-link">FAQs</a>
+            <a href="contact.html" class="nav-link">Contact Us</a>
+            <a href="signin.html" class="nav-link">Sign In</a>
+            <a href="profile.html" class="nav-link">My Profile</a>
+        </nav>
+    </div>
+</header>
 
-<div id="results"></div>
+<main class="main-wrapper">
+    <!-- Static Header (Left Aligned) -->
+    <div class="results-page-header">
+        <h1>Your Top 3 Career Matches</h1>
+    </div>
+
+    <div id="results">
+        <!-- Dynamic Grid will be injected here by main.js -->
+        <p>Loading recommendations...</p>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-left">
+            <div class="logo-icon small"></div>
+            <div>
+                <div class="footer-logo-text">CareerCompass</div>
+                <div class="footer-tagline">Helping people find careers that fit who they truly are.</div>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home Page</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="faq.html">FAQs</a>
+            <a href="signin.html">Sign In</a>
+            <a href="#">Return to Top</a>
+        </div>
+    </div>
+
+    <p class="footer-bottom">© 2025 CareerCompass. All rights reserved.</p>
+</footer>
 
 <script src="main.js"></script>
 </body>

@@ -10,7 +10,7 @@ body {
     margin: 0;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     color: #111827;
-    background: #f5f7ff;
+    background: #f0f9ff; /* Light Blue Background (Image 2 Style) */
 }
 
 a {
@@ -55,23 +55,34 @@ h1, h2, h3, h4 {
     gap: 8px;
 }
 
+/* Updated Logo Icon (Solid Blue Circle) */
 .logo-icon {
     width: 32px;
     height: 32px;
-    border-radius: 999px;
-    border: 2px solid #4f46e5;
+    border-radius: 50%;
+    background: #2563eb; /* Solid Blue */
+    color: #ffffff; /* White Icon */
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 26px;
-    color: #4f46e5;
-    background: #eef2ff;
+    font-size: 18px;
+    border: none; /* Removed border */
+}
+
+/* Mock Compass Needle using pseudo-elements if desired, or just unicode */
+.logo-icon::before {
+    content: "🧭"; /* Using unicode for simplicity and robustness */
+    font-size: 20px;
 }
 
 .logo-icon.small {
-    width: 20px;
-    height: 20px;
-    font-size: 20px;
+    width: 24px;
+    height: 24px;
+    font-size: 14px;
+}
+
+.logo-icon.small::before {
+    font-size: 14px;
 }
 
 .logo-text {
@@ -965,6 +976,129 @@ button {
 }
 
 
+/* ====== Results Page (Polished) ====== */
+
+.results-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.results-header h1 {
+    font-size: 36px;
+    font-weight: 800;
+    color: #111827;
+}
+
+/* Remove the boxy container background */
+.results-table {
+    background: transparent; /* Changed from #ecf7ff */
+    border-radius: 0;
+    padding: 0;
+    display: block; /* Reset grid from previous attempt if conflicting */
+    box-shadow: none;
+}
+
+/* Container for the columns */
+.results-container {
+    display: flex;
+    gap: 24px; /* Increased gap for card separation */
+    overflow-x: auto;
+    padding-bottom: 32px;
+    justify-content: center;
+    align-items: flex-start; /* Align tops */
+}
+
+/* Label Column */
+.labels-column {
+    flex: 0 0 160px; /* Slightly narrower */
+    margin-top: 74px; /* Match header height + border */
+    /* Ensure labels have no background */
+    background: transparent;
+}
+
+.label-cell {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end; /* Right align */
+    padding-right: 24px;
+    font-weight: 700;
+    color: #4b5563;
+    font-size: 14px;
+    border-bottom: 1px solid transparent; /* alignment placeholder */
+}
+
+/* Job Card Column (The "Cards") */
+.job-card-column {
+    flex: 0 0 260px; /* Fixed width cards */
+    background: #ffffff;
+    border-radius: 20px; /* Softer corners */
+    box-shadow: 0 10px 25px rgba(0,0,0,0.06); /* Floating effect */
+    overflow: hidden;
+    border: 1px solid transparent; /* Prep for border */
+    transition: transform 0.2s;
+}
+
+.job-card-column:hover {
+    transform: translateY(-4px); /* Interactive feel */
+}
+
+/* Highlighted Card (First one) */
+.job-card-column:first-of-type {
+    background: #dbeafe; /* Blue tint */
+    border: 2px solid #bfdbfe; /* darker border */
+    box-shadow: 0 12px 30px rgba(37, 99, 235, 0.15); /* Blueish shadow */
+}
+
+.job-header {
+    padding: 24px 16px;
+    text-align: center;
+    font-weight: 800;
+    font-size: 19px;
+    color: #111827;
+    height: 74px; /* Height */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.02);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.data-cell {
+    height: 60px; /* Must match label-cell exactly */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 15px;
+    color: #334155;
+    padding: 0 12px;
+    border-bottom: 1px solid rgba(0,0,0,0.04);
+}
+
+.data-cell:last-child {
+    border-bottom: none;
+    padding: 24px;
+    text-align: left;
+    font-size: 13px;
+    line-height: 1.6;
+    height: auto;
+    min-height: 120px;
+}
+
+/* Match Score Emphasis */
+.match-score {
+    font-size: 24px;
+    font-weight: 800;
+    color: #111827;
+}
+
+/* Specific tweaks for image 1 style */
+.job-card-column:first-of-type .match-score {
+    color: #1e40af; /* Darker blue for top match */
+}
+
+
 /* ====== Responsive ====== */
 
 @media (max-width: 900px) {
@@ -979,6 +1113,18 @@ button {
         flex-direction: column;
         text-align: center;
     }
+    
+    /* Mobile Results: Stack or Scroll */
+    .results-container {
+        justify-content: flex-start; /* Allow left alignment for scroll */
+    }
+    
+    .labels-column {
+        position: sticky;
+        left: 0;
+        background: #f5f7ff; /* Match body bg to cover scroll */
+        z-index: 10;
+    }
 }
 
 @media (max-width: 640px) {
@@ -986,5 +1132,9 @@ button {
     
     .contact-form-col {
         padding: 24px;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
     }
 }

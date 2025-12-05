@@ -94,6 +94,7 @@ const MAJOR_WORD_BANK = [
 ];
 
 const TECH_SKILL_BANK = [
+    // Original Base
     "Lab instrumentation",
     "PCR wet lab",
     "EHR systems Epic Cerner",
@@ -208,7 +209,33 @@ const TECH_SKILL_BANK = [
     "Cataloging Systems",
     "Research Databases",
     "Activity Planning",
-    "Classroom Management"
+    "Classroom Management",
+
+    // --- EXPANDED TECH SKILLS (Programming, AI, Frameworks, DBs) ---
+    
+    // Programming Languages
+    "JavaScript", "TypeScript", "Java", "C++", "C#", "Go", "Ruby", "Swift", "Kotlin", "Rust", "PHP", "Matlab", "Scala", "Perl",
+    
+    // Web Frameworks & Libraries
+    "React", "Angular", "Vue.js", "Next.js", "Svelte", "Node.js", "Express.js", "Django", "Flask", "FastAPI", "Spring Boot", "ASP.NET", "Ruby on Rails", "Laravel", "jQuery", "Bootstrap", "Tailwind CSS",
+    
+    // AI / ML / Data Science
+    "TensorFlow", "PyTorch", "Keras", "Scikit-learn", "Pandas", "NumPy", "Matplotlib", "OpenCV", "NLTK", "Spacy", "Hugging Face Transformers", "LLMs (Large Language Models)", "Generative AI", "Computer Vision", "Natural Language Processing", "Reinforcement Learning", "Jupyter Notebooks",
+    
+    // Databases
+    "MySQL", "PostgreSQL", "MongoDB", "Oracle Database", "Microsoft SQL Server", "SQLite", "Redis", "Cassandra", "Firebase", "DynamoDB", "Elasticsearch", "Neo4j",
+    
+    // DevOps & Cloud
+    "Docker", "Kubernetes", "AWS (Amazon Web Services)", "Azure", "Google Cloud Platform (GCP)", "Jenkins", "Git", "GitHub", "GitLab", "CI/CD", "Terraform", "Ansible", "Linux", "Bash Scripting", "Nginx", "Apache",
+    
+    // Mobile Development
+    "React Native", "Flutter", "iOS Development", "Android Development", "Xamarin", "Ionic",
+    
+    // Testing
+    "Jest", "Mocha", "Selenium", "Cypress", "JUnit", "PyTest",
+    
+    // Other Tech
+    "GraphQL", "REST APIs", "Microservices", "WebSockets", "Blockchain", "Smart Contracts", "Solidity", "Unity", "Unreal Engine", "Game Development", "AR/VR Development"
 ];
 
 const SOFT_SKILL_BANK = [
@@ -246,7 +273,19 @@ const SOFT_SKILL_BANK = [
     "Creativity",
     "Writing and editing",
     "Curiosity",
-    "Energy"
+    "Energy",
+    "Emotional Intelligence",
+    "Active Listening",
+    "Flexibility",
+    "Resilience",
+    "Work Ethic",
+    "Interpersonal Skills",
+    "Decision Making",
+    "Mentoring",
+    "Public Speaking",
+    "Storytelling",
+    "Design Thinking",
+    "Self-motivation"
 ];
 
 let selectedMajors = [];
@@ -260,7 +299,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const resultsContainer = document.getElementById("results");
     const loginForm = document.getElementById("loginForm");
     const profileName = document.getElementById("profileName");
-    const contactForm = document.getElementById("contactForm"); // NEW
+    const contactForm = document.getElementById("contactForm");
 
     if (surveyForm) {
         setupSurveyForm(surveyForm);
@@ -281,7 +320,7 @@ document.addEventListener("DOMContentLoaded", () => {
         loadProfile();
     }
 
-    if (contactForm) { // NEW
+    if (contactForm) {
         setupContactForm(contactForm);
     }
     
@@ -590,44 +629,54 @@ async function loadResults(container) {
             return;
         }
 
+        // Redesign Results UI (Column-Based Card View)
         container.innerHTML = "";
+        
+        // REMOVED DYNAMIC HEADER to avoid duplication with static HTML
+        // const header = document.createElement("div"); ...
+
+        const resultsContainer = document.createElement("div");
+        resultsContainer.className = "results-container";
+
+        // 1. Labels Column
+        const labelsCol = document.createElement("div");
+        labelsCol.className = "result-column labels-column";
+        labelsCol.innerHTML = `
+            <div class="label-cell">Match Score</div>
+            <div class="label-cell">Industry</div>
+            <div class="label-cell">Starting Salary</div>
+            <div class="label-cell">Avg Working Hours</div>
+            <div class="label-cell">Salary Growth</div>
+            <div class="label-cell">Market Demand</div>
+            <div class="label-cell">Key Skills<br>(Have)</div>
+            <div class="label-cell">Skills to Improve</div>
+            <div class="label-cell">Job Description</div>
+        `;
+        resultsContainer.appendChild(labelsCol);
+
+        // 2. Job Columns
         careers.forEach(c => {
-            const match         = getSkillAnalysis(user, c);
-            const description   = generateJobDescription(c);
-            const potentialScore = Math.round(c.salary_growth_rate * 100);
-
-            const card = document.createElement("div");
-            card.className = "result-card";
-
-            card.innerHTML = `
-                <h2>${c.job_title}</h2>
-                <p><strong>Match Score:</strong> ${c.score}</p>
-                <p><strong>Industry:</strong> ${c.industry}</p>
-
-                <h3>Job Description</h3>
-                <p>${description}</p>
-
-                <h3>Career Details</h3>
-                <p><strong>Starting Salary:</strong> $${c.starting_salary.toLocaleString()}</p>
-                <p><strong>Avg Working Hours:</strong> ${c.avg_working_hours} hrs/week</p>
-             
-
-                <h3>Key Responsibilities</h3>
-                <ul>${c.key_responsibilities.map(r => `<li>${r}</li>`).join("")}</ul>
-
-                <h3>Growth & Competition</h3>
-                <p><strong>Salary Growth Rate:</strong> ${(c.salary_growth_rate * 100).toFixed(1)}%</p>
-                <p><strong>Market Demand:</strong> ${c.market_demand}</p>
-
-                <h3>Skills You Have</h3>
-                <ul>${match.have.length ? match.have.map(s => `<li>${s}</li>`).join("") : "<li>No skill matches.</li>"}</ul>
-
-                <h3>Skills To Improve</h3>
-                <ul>${match.need.length ? match.need.map(s => `<li>${s}</li>`).join("") : "<li>You match all required skills!</li>"}</ul>
+            const match = getSkillAnalysis(user, c);
+            const col = document.createElement("div");
+            col.className = "result-column job-card-column";
+            
+            col.innerHTML = `
+                <div class="job-header">${c.job_title}</div>
+                <div class="data-cell match-score">${c.score}%</div>
+                <div class="data-cell">${c.industry}</div>
+                <div class="data-cell">$${c.starting_salary.toLocaleString()}/yr</div>
+                <div class="data-cell">${c.avg_working_hours} hrs/week</div>
+                <div class="data-cell">${(c.salary_growth_rate * 100).toFixed(1)}%</div>
+                <div class="data-cell">${c.market_demand}</div>
+                <div class="data-cell small-text">${match.have.length ? match.have.slice(0,3).join(", ") : "-"}</div>
+                <div class="data-cell small-text">${match.need.length ? match.need.slice(0,3).join(", ") : "None"}</div>
+                <div class="data-cell small-text description-cell">${generateJobDescription(c)}</div>
             `;
-
-            container.appendChild(card);
+            resultsContainer.appendChild(col);
         });
+
+        container.appendChild(resultsContainer);
+
     } catch (err) {
         console.error(err);
         container.innerHTML = "<p>Error loading recommendations.</p>";
@@ -656,7 +705,8 @@ function getSkillAnalysis(user, career) {
 }
 
 function generateJobDescription(career) {
-    return `As a ${career.job_title} in the ${career.industry} sector, you will play a key role in tasks such as ${career.key_responsibilities.slice(0,2).join(", ")}, leveraging skills like ${career.technical_skills.slice(0,2).join(", ")} and soft skills such as ${career.soft_skills.slice(0,2).join(", ")}.`;
+    // Simplified description for table view
+    return `Your profile aligns with ${career.job_title} due to shared skills in ${career.industry}. Focus on improving technical gaps to increase match potential.`;
 }
 
 // ====== Autocomplete for majors & skills ======

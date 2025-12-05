@@ -30,12 +30,11 @@
     - [x] Implement FAQ Page (`faq.html`).
     - [x] Implement Contact Page (`contact.html`).
     - [x] Backend logic for Contact Form submissions (`POST /contact`).
-- [ ] **Refine Survey Page**:
-    - [ ] Improve multi-step form experience.
-    - [ ] Better validation for inputs.
+- [x] **Refine Survey Page**:
+    - [x] Expand Skills and Majors word banks.
 - [ ] **Refine Results Page**:
-    - [ ] Add "Save Result" functionality.
-    - [ ] Improve visual layout of cards.
+    - [ ] Implement Visual Redesign (Table/Cards matching Figma).
+    - [ ] Add match details (Match %, Salary, Potential, Competition).
 
 ## Phase 4: Polishing & Documentation
 - [ ] **Code Refactoring**: Clean up `server.js` if it grows too large (separate routes).
@@ -53,3 +52,4 @@
 - **2023-12-05**: Implemented My Profile Page UI (`profile.html`).
 - **2023-12-05**: Completed Profile Data Fetching and Navigation Logic (Log Out, Link Fixes).
 - **2023-12-05**: Implemented FAQ and Contact Pages + Backend Contact Form.
+- **2023-12-05**: Expanded Skill Banks in Survey Logic.
