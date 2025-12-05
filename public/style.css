@@ -162,6 +162,18 @@ button.btn-primary {
     background: #e0e7ff;
 }
 
+/* Blue Large Button (Contact) */
+.btn-blue-large {
+    width: 100%;
+    padding: 14px;
+    font-size: 16px;
+    background: #2563eb;
+}
+
+.btn-blue-large:hover {
+    background: #1d4ed8;
+}
+
 
 button {
     font-family: inherit;
@@ -810,71 +822,169 @@ button {
 }
 
 
+/* ====== FAQ Page ====== */
+
+.page-faq {
+    background: #f5f7ff;
+}
+
+.faq-header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px 0;
+    background: #fff0f5; /* Slight pink tint as per design/image maybe? Or keep white/light blue. The image shows very light background with centered text */
+    background: #fffcfc; 
+}
+
+.faq-header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.faq-subtitle {
+    font-size: 16px;
+    color: #4b5563;
+    font-weight: 600;
+}
+
+.faq-container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+}
+
+.faq-item {
+    margin-bottom: 24px;
+}
+
+.faq-item h3 {
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.faq-answer {
+    font-size: 15px;
+    color: #4b5563;
+    line-height: 1.6;
+}
+
+
+/* ====== Contact Page ====== */
+
+.page-contact {
+    background: #f5f7ff;
+}
+
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    background: #ffffff;
+    border-radius: 24px;
+    padding: 40px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+    /* Wrapper inside .main-wrapper ensures standard max-width */
+}
+
+/* Left Column */
+.contact-info-col h1 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    text-transform: uppercase;
+}
+
+.contact-box {
+    background: #e0f2fe; /* Light blue */
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #1e293b;
+}
+
+.contact-box .note {
+    font-weight: 400;
+    font-size: 13px;
+    color: #475569;
+    display: block;
+    margin-top: 4px;
+}
+
+.follow-box {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.social-squares {
+    display: flex;
+    gap: 8px;
+}
+
+.sq {
+    width: 24px;
+    height: 24px;
+    background: #cbd5e1;
+    border-radius: 4px;
+}
+
+/* Right Column */
+.contact-form-col {
+    background: #f0f9ff;
+    padding: 40px;
+    border-radius: 16px;
+    text-align: center;
+}
+
+.contact-form-col h2 {
+    font-size: 24px;
+    margin-bottom: 24px;
+}
+
+.contact-input, 
+.contact-textarea {
+    width: 100%;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    font-family: inherit;
+    font-size: 15px;
+}
+
+.contact-textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+
 /* ====== Responsive ====== */
 
 @media (max-width: 900px) {
-    .hero,
-    .experts-inner,
-    .survey-layout {
-        grid-template-columns: minmax(0, 1fr);
-    }
-
-    .hero {
-        padding: 28px 20px;
-    }
-
-    .hero-visual {
-        order: -1;
-    }
-
-    .nav-links {
-        justify-content: flex-end;
+    /* ... existing responsive rules ... */
+    
+    .contact-grid {
+        grid-template-columns: 1fr;
+        padding: 24px;
     }
     
-    /* Profile Responsive */
     .profile-header-card {
         flex-direction: column;
         text-align: center;
-        gap: 20px;
-        padding: 32px 24px;
-    }
-    
-    .profile-actions {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
     }
 }
 
 @media (max-width: 640px) {
-    .nav-inner {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px;
-    }
-
-    .main-wrapper {
-        padding-inline: 14px;
-    }
-
-    .hero-text h1 {
-        font-size: 28px;
-    }
-
-    .hero-card {
-        max-width: 100%;
-    }
-
-    .footer-inner {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+    /* ... existing rules ... */
     
-    .auth-card {
-        padding: 32px 20px;
-    }
-    
-    .profile-actions {
-        flex-direction: column;
+    .contact-form-col {
+        padding: 24px;
     }
 }

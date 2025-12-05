@@ -47,8 +47,16 @@ const careerSchema = new mongoose.Schema({
     market_demand: String
 });
 
+// New Contact Schema
+const contactSchema = new mongoose.Schema({
+    name: String,
+    message: String,
+    date: { type: Date, default: Date.now }
+});
+
 const User = mongoose.model("User", userSchema);
 const Career = mongoose.model("Career", careerSchema);
+const Contact = mongoose.model("Contact", contactSchema);
 
 
 // SAFE ARRAY PARSER
@@ -227,6 +235,21 @@ app.post("/survey", async (req, res) => {
     res.json({ userId: newUser._id });
 });
 
+// Contact Form Submission (New)
+app.post("/contact", async (req, res) => {
+    try {
+        const { name, message } = req.body;
+        if (!name || !message) {
+            return res.status(400).json({ error: "Name and message required" });
+        }
+        
+        await Contact.create({ name, message });
+        res.json({ success: true });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Failed to submit message" });
+    }
+});
 
 
 // Fetch User

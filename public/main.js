@@ -259,7 +259,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const surveyForm = document.getElementById("surveyForm");
     const resultsContainer = document.getElementById("results");
     const loginForm = document.getElementById("loginForm");
-    const profileName = document.getElementById("profileName"); // Check for profile page
+    const profileName = document.getElementById("profileName");
+    const contactForm = document.getElementById("contactForm"); // NEW
 
     if (surveyForm) {
         setupSurveyForm(surveyForm);
@@ -276,8 +277,12 @@ document.addEventListener("DOMContentLoaded", () => {
         setupAuth(loginForm);
     }
 
-    if (profileName) { // NEW: Only on profile page
+    if (profileName) {
         loadProfile();
+    }
+
+    if (contactForm) { // NEW
+        setupContactForm(contactForm);
     }
     
     updateNavigation();
@@ -393,19 +398,9 @@ function updateNavigation() {
 
     } else {
         // === LOGGED OUT ===
-        
-        // 1. Profile Links: Hide or keep (Let's keep visible but they redirect to signin due to page logic)
-        // To avoid confusion, let's actually hide them on Home/nav if not logged in
-        // or let them click and be redirected by the profile.html logic.
-        // User rule asked for "functional", so let's leave them as is (href="profile.html").
         profileLinks.forEach(link => {
              link.style.display = "inline-block"; 
         });
-
-        // 2. Sign In Links: Reset to default
-        // We can't easily "reset" a cloned node that was turned into a logout button without reloading the page,
-        // but since this runs on page load, it handles the initial state correctly.
-        // If we just logged out, the page reloads (window.location.href="index.html"), so this else block runs clean.
     }
 }
 
@@ -538,6 +533,37 @@ function setupSurveyForm(form) {
         }
     });
 }
+
+// CONTACT FORM LOGIC (NEW)
+function setupContactForm(form) {
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const name = formData.get("name");
+        const message = formData.get("message");
+
+        try {
+            const res = await fetch("/contact", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ name, message })
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                alert("Message sent successfully!");
+                form.reset();
+            } else {
+                alert(data.error || "Failed to send message");
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Network error sending message");
+        }
+    });
+}
+
 
 // Results page logic
 async function loadResults(container) {

@@ -13,14 +13,15 @@ CareerCompass is a web application designed to help undergraduate students disco
 *   **Interactions**: Navigation links, "Start Career Match Test" button.
 
 ### FAQs Page
-*   **Status**: Planned.
+*   **Status**: Implemented.
 *   **Purpose**: Address common user questions about the assessment method and privacy.
-*   **Key UI/UX**: Accordion-style Q&A list.
+*   **Key UI/UX**: Clean list of questions and answers.
 
 ### Contact Us Page
-*   **Status**: Planned.
+*   **Status**: Implemented.
 *   **Purpose**: Allow users to reach out for support or feedback.
-*   **Key UI/UX**: Contact form and support email display.
+*   **Key UI/UX**: Split layout with contact info and submission form.
+*   **Backend Dependencies**: `POST /contact`.
 
 ### Sign In Page
 *   **Status**: Functional (Login/Register/Log Out).

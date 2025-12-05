@@ -25,16 +25,17 @@
     - [x] Update links based on login status (Toggle Sign In / Log Out).
     - [x] Fix broken navigation links on Homepage.
 
-## Phase 3: Enhanced UI/UX & Navigation (Next Priority)
+## Phase 3: Enhanced UI/UX & Navigation (In Progress)
+- [x] **Static Pages**:
+    - [x] Implement FAQ Page (`faq.html`).
+    - [x] Implement Contact Page (`contact.html`).
+    - [x] Backend logic for Contact Form submissions (`POST /contact`).
 - [ ] **Refine Survey Page**:
     - [ ] Improve multi-step form experience.
     - [ ] Better validation for inputs.
 - [ ] **Refine Results Page**:
     - [ ] Add "Save Result" functionality.
     - [ ] Improve visual layout of cards.
-- [ ] **Static Pages**:
-    - [ ] Implement FAQ Page (`faq.html`).
-    - [ ] Implement Contact Page (`contact.html`).
 
 ## Phase 4: Polishing & Documentation
 - [ ] **Code Refactoring**: Clean up `server.js` if it grows too large (separate routes).
@@ -51,3 +52,4 @@
 - **2023-12-05**: Implemented Sign Up UI Toggle.
 - **2023-12-05**: Implemented My Profile Page UI (`profile.html`).
 - **2023-12-05**: Completed Profile Data Fetching and Navigation Logic (Log Out, Link Fixes).
+- **2023-12-05**: Implemented FAQ and Contact Pages + Backend Contact Form.
