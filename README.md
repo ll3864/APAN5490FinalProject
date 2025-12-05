@@ -10,7 +10,7 @@ CareerCompass is a web application designed to help undergraduate students disco
 *   **Status**: Implemented.
 *   **Purpose**: Landing page to introduce value propositions and entry point for the assessment.
 *   **Key UI/UX**: Hero section with call-to-action, value cards, "How It Works" steps, and sample deliverables.
-*   **Interactions**: Navigation links, "Start Career Match Test" button.
+*   **Interactions**: Navigation links, "Start Career Match Test" button (Redirects to Sign In if guest).
 
 ### FAQs Page
 *   **Status**: Implemented.
@@ -26,23 +26,24 @@ CareerCompass is a web application designed to help undergraduate students disco
 ### Sign In Page
 *   **Status**: Functional (Login/Register/Log Out).
 *   **Purpose**: User authentication.
-*   **Key Interactions**: Login form, link to registration.
+*   **Key Interactions**: Login form, link to registration (Toggle), Global Log Out.
 
 ### My Profile Page
 *   **Status**: Functional (Data Fetching Implemented).
 *   **Purpose**: View and manage user data and past assessment results.
-*   **Key UI/UX**: Dashboard view of user attributes and saved career matches.
+*   **Key UI/UX**: Dashboard view of user attributes, Skills Snapshot, Interest Overview.
+*   **Features**: View Report, Download Report (Auto-Print), Edit Profile (Retake Survey).
 
 ### Career Survey Page
 *   **Status**: Functional Prototype.
 *   **Purpose**: Collect user data for the matching algorithm.
 *   **Key UI/UX**: Multi-step or single-page form with autocomplete fields for majors and skills.
-*   **Backend Dependencies**: `POST /survey` to save responses.
+*   **Backend Dependencies**: `POST /survey` to save responses (updates user profile).
 
 ### Results Page
-*   **Status**: Functional Prototype (UI Redesign In Progress).
+*   **Status**: Functional Prototype (Redesigned).
 *   **Purpose**: Display algorithmic recommendations.
-*   **Key UI/UX**: Dynamic result cards showing match score, job description, salary data, and skill gap analysis (Have vs. Need).
+*   **Key UI/UX**: Column-based "Card Comparison" layout showing Match %, Salary, Potential, Competition, and Skill Analysis.
 *   **Backend Dependencies**: `GET /recommendations/:userId`.
 
 ## 3. Tech Stack
@@ -70,7 +71,9 @@ graph TD
     
     Client -- Auth/Login --> API
     Client -- Submit Survey --> API
-    API -- Store Data --> DB
+    Client -- Submit Contact Form --> API
+    API -- Store User/Survey Data --> DB
+    API -- Store Messages --> DB
     API -- Retrieve Job Data --> DB
     API -- Compute Matches --> MatchAlgo
     MatchAlgo --> API
@@ -81,7 +84,7 @@ graph TD
 
 ```mermaid
 flowchart TD
-    A[Homepage] --> B{Click 'Start Career Match Test'}
+    A[Homepage] --> B{Click 'Start Test'}
     B --> C{Signed In?}
     C -- No --> D[Sign In Page]
     D --> E[Survey Page]
@@ -91,6 +94,8 @@ flowchart TD
     G --> H[Results Page]
     H --> I{Save/Download?}
     I --> J[Profile Page]
+    J -- Edit Profile --> E
+    J -- View Report --> H
 ```
 
 ## 6. Database Design
@@ -99,10 +104,16 @@ flowchart TD
 
 **Users**
 *   `_id`: ObjectId
-*   `email`: String
-*   `password_hash`: String
-*   `profile_data`: Object (name, etc.)
-*   `history`: Array (past results)
+*   `email`: String (Unique, Sparse)
+*   `password`: String
+*   `name`: String
+*   `education`: String
+*   `major`: Array[String]
+*   `technical_skills`: Array[String]
+*   `soft_skills`: Array[String]
+*   `industry`: String
+*   `work_type`: Array[String]
+*   `mbti`: String
 
 **Jobs (Careers)**
 *   `title`: String
@@ -114,15 +125,10 @@ flowchart TD
 *   `market_demand`: String
 *   `growth_rate`: Number
 
-**SurveyResponses**
-*   `user_id`: ObjectId (ref: Users)
-*   `education`: String
-*   `major`: Array[String]
-*   `technical_skills`: Array[String]
-*   `soft_skills`: Array[String]
-*   `industry_pref`: String
-*   `work_type`: Array[String]
-*   `mbti`: String
+**Contact**
+*   `name`: String
+*   `message`: String
+*   `date`: Date
 
 ## 7. Matching Algorithm
 
@@ -136,55 +142,20 @@ The system uses a rule-based weighted scoring approach:
     *   **MBTI Compatibility**: Matching personality type against role suitability.
 *   **Output**: Top 3 career matches with detailed skill gap analysis (Skills user has vs. skills user needs).
 
-## 8. Folder Structure
-
-Expected final directory layout:
-
-```
-/public
-    index.html
-    survey.html
-    results.html
-    faq.html
-    contact.html
-    signin.html
-    profile.html
-    main.js
-    style.css
-    /images
-        careers.jpg
-        ...
-
-/src
-    server.js
-    routes/
-    models/
-    utils/
-
-/data
-    careersData.js
-
-README.md
-package.json
-```
-
-## 9. Image Design Guidelines
-
-*   **Format**: PNG or SVG preferred.
-*   **Style**: Modern illustrations with an education/career theme. Simple, friendly, minimal.
-*   **Background**: Transparent.
-*   **Dimensions**:
-    *   Hero images: ~600–700px width.
-    *   Card/Icon images: ~150–250px width.
-
-## 10. Installation and Setup
+## 8. Installation and Setup
 
 1.  **Install Dependencies**:
     ```bash
     npm install
     ```
 
-2.  **Run Locally**:
+2.  **Start MongoDB**:
+    Ensure Docker or local MongoDB is running on port 27017.
+    ```bash
+    docker run -d -p 27017:27017 --name my-mongo mongo:latest
+    ```
+
+3.  **Run Locally**:
     ```bash
     npm run dev
     # OR
@@ -192,74 +163,10 @@ package.json
     ```
     Server runs on `http://localhost:3001` (default).
 
-## 11. Implementation Status
+## 9. Implementation Status
 
-*   **Completed**:
-    *   Homepage UI (locked).
-    *   Core backend server setup.
-    *   MongoDB connection and automatic data seeding.
-    *   Matching logic implementation.
-    *   Basic Survey to Results flow.
-
-*   **In Progress**:
-    *   Refining Survey and Results UI.
-    *   Implementing Auth/Sign In flow.
-    *   Building Profile, FAQ, and Contact pages.
-
-## 12. Current Progress
-
-Here is the overview of your current codebase.
-
-1. Codebase Structure Diagram
-
-This ASCII diagram outlines the current file structure and the role of each key component.
-
-APAN5490FinalProject/
-
-├── server.js            # BACKEND: Express server, API endpoints, & matching logic
-
-├── careersData.js       # DATA: JSON dataset used to seed the database
-
-├── package.json         # CONFIG: Dependencies (express, mongoose, cors) & scripts
-
-├── README.md            # DOCS: Project documentation
-
-└── public/              # FRONTEND: Static files served to the browser
-
-    ├── index.html       # -> Landing page (Hero section, Value props)
-
-    ├── survey.html      # -> Survey form (Inputs for skills, education, MBTI)
-
-    ├── results.html     # -> Results page (Displays recommended careers)
-
-    ├── main.js          # -> Client logic (Form submission, Autocomplete, API calls)
-
-    ├── style.css        # -> Global styling
-
-    └── [images...]      # -> Assets (careers.jpg, value1.jpg, etc.)
-
-APAN5490FinalProject/├── server.js            # BACKEND: Express server, API endpoints, & matching logic├── careersData.js       # DATA: JSON dataset used to seed the database├── package.json         # CONFIG: Dependencies (express, mongoose, cors) & scripts├── README.md            # DOCS: Project documentation└── public/              # FRONTEND: Static files served to the browser    ├── index.html       # -> Landing page (Hero section, Value props)    ├── survey.html      # -> Survey form (Inputs for skills, education, MBTI)    ├── results.html     # -> Results page (Displays recommended careers)    ├── main.js          # -> Client logic (Form submission, Autocomplete, API calls)    ├── style.css        # -> Global styling    └── [images...]      # -> Assets (careers.jpg, value1.jpg, etc.)
-
-2. Project Progress Summary
-
-Current Status: Functional Prototype
-
-The codebase represents a complete "Steel Thread" — a fully connected path from frontend user input to backend processing and database storage.
-
-Backend (server.js):
-
-Tech Stack: Node.js, Express, Mongoose.
-
-Data Seeding: Automatically checks if the database is empty and loads initial data from careersData.js.
-
-Matching Algorithm: Implements a weighted scoring system (calculateCareerScore) that compares user attributes (skills, education, major, MBTI) against career requirements.
-
-API: Exposes endpoints to save surveys (POST /survey) and fetch recommendations (GET /recommendations/:userId).
-
-Frontend (public/):
-
-Flow: Home → Survey → Results.
-
-Interactivity: main.js handles complex UI elements like autocomplete for majors/skills and dynamic DOM generation for result cards.
-
-Design: CSS is present (style.css) with a responsive layout structure.
+**Project Complete**: All core features and UI refinements are implemented.
+*   **Auth**: Login/Register/Logout functional.
+*   **Core Flow**: Survey -> Algorithm -> Results functional.
+*   **Pages**: Home, Profile, Results, FAQ, Contact fully styled and linked.
+*   **Database**: User, Career, Contact collections active.

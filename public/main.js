@@ -300,6 +300,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("loginForm");
     const profileName = document.getElementById("profileName");
     const contactForm = document.getElementById("contactForm");
+    const startSurveyBtn = document.getElementById("startSurveyBtn"); // NEW
 
     if (surveyForm) {
         setupSurveyForm(surveyForm);
@@ -322,6 +323,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (contactForm) {
         setupContactForm(contactForm);
+    }
+    
+    // Survey Access Logic
+    if (startSurveyBtn) {
+        startSurveyBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            const userId = localStorage.getItem("userId");
+            if (userId) {
+                window.location.href = "survey.html";
+            } else {
+                alert("Please sign in to take the career test.");
+                window.location.href = "signin.html";
+            }
+        });
     }
     
     updateNavigation();
@@ -488,6 +503,25 @@ async function loadProfile() {
             interestsContainer.innerHTML = majors.map(m => `<span class="skill-tag" style="background:#f3f4f6; color:#374151;">${m}</span>`).join("");
         } else if (user.industry) {
              interestsContainer.innerHTML = `<span class="skill-tag" style="background:#f3f4f6; color:#374151;">${user.industry}</span>`;
+        }
+
+        // BUTTON LOGIC
+        const btnView = document.getElementById("btnViewReport");
+        const btnDownload = document.getElementById("btnDownloadReport");
+        const btnEdit = document.getElementById("btnEditProfile");
+
+        if (btnView) {
+            btnView.onclick = () => window.location.href = `results.html?userId=${userId}`;
+        }
+        
+        if (btnDownload) {
+            btnDownload.onclick = () => {
+                window.open(`results.html?userId=${userId}&print=true`, '_blank');
+            };
+        }
+
+        if (btnEdit) {
+            btnEdit.onclick = () => window.location.href = "survey.html";
         }
 
     } catch (err) {
@@ -676,6 +710,14 @@ async function loadResults(container) {
         });
 
         container.appendChild(resultsContainer);
+
+        // AUTO PRINT LOGIC
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('print') === 'true') {
+            setTimeout(() => {
+                window.print();
+            }, 500);
+        }
 
     } catch (err) {
         console.error(err);

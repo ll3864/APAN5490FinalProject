@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+------------------------------------------------
+(be noted that our current version already implemented some of the features mentioned in following instructions, like interative navigation bar, we need to check the difference of our current UI design, for features have not implemented yet that is mentioned in following instruction step, should follow the required do so-asked approach. BUT try not to overlap, not to ruin the current feature or UI . Change the codebase as "update"; ) 
+
+[For development procedure] For each step, you should work them one by one for output, and [important] before you write new function for feature, check the codebase if there are some files contain revalvant functions can be used or called, consider the code quality.[important] One more thing, explain the related code file's current code structure and what UI feature it have implemented already in high level, and then explain [before you actually work on coding and change the codebase ] how you will update on code file to implemented our new feature listed in following steps and how (in system design view), and make sure will not conflit with current codebase. (do this process like as a pull request waiting for user review, for project management purpose ) Once the user have confirmed you can make such change at next input (u should ask in the end to confirm the code update and apply to local codebase ), you can start change thge codebase accordingly. for below step, once you think it is ready to move to worked on next step, you should say so in the end of your last output
+
+-------------------------------------------------

@@ -47,6 +47,7 @@ h1, h2, h3, h4 {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    position: relative;
 }
 
 .nav-left {
@@ -103,6 +104,7 @@ h1, h2, h3, h4 {
     color: #111827;
     font-size: 14px;
     font-weight: 500;
+    display: inline-block;
 }
 
 .nav-link.active {
