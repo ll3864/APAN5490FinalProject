@@ -249,6 +249,11 @@ const SOFT_SKILL_BANK = [
     "Energy"
 ];
 
+let selectedMajors = [];
+let selectedTechSkills = [];
+let selectedSoftSkills = [];
+
+
 // Bootstrapping
 document.addEventListener("DOMContentLoaded", () => {
     const surveyForm = document.getElementById("surveyForm");
@@ -268,9 +273,35 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
 // Survey submit
+
+function prepareTagsBeforeSubmit() {
+    const form = document.getElementById("surveyForm");
+
+    // Remove old hidden inputs
+    ["major", "technical_skills", "soft_skills"].forEach(name => {
+        const old = form.querySelector(`input[name="${name}"]`);
+        if (old) old.remove();
+    });
+
+    // Insert fresh ones populated with the current selected[] arrays
+    insertHidden("major", selectedMajors);
+    insertHidden("technical_skills", selectedTechSkills);
+    insertHidden("soft_skills", selectedSoftSkills);
+}
+
+function insertHidden(name, array) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = JSON.stringify(array);
+    document.getElementById("surveyForm").appendChild(input);
+}
+
 function setupSurveyForm(form) {
     form.addEventListener("submit", async (e) => {
         e.preventDefault();
+
+        prepareTagsBeforeSubmit();
 
         const fd = new FormData(form);
         const data = {};
@@ -405,7 +436,7 @@ function setupMajorAutocomplete() {
     const tagBox = document.getElementById("majorBox");
     if (!input || !box || !tagBox) return;
 
-    let selected = [];
+    let selected = selectedMajors;
 
     input.addEventListener("input", () => {
         const q = input.value.toLowerCase().trim();
@@ -461,7 +492,10 @@ function setupSkillAutocomplete(inputId, suggestionsId, bank, fieldName) {
     if (!input || !box) return;
 
     const tagBox = input.parentElement;
-    let selected = [];
+    let selected =
+        fieldName === "technical_skills"
+            ? selectedTechSkills
+            : selectedSoftSkills;
 
     input.addEventListener("input", () => {
         const q = input.value.toLowerCase().trim();

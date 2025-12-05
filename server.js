@@ -32,7 +32,7 @@ const careerSchema = new mongoose.Schema({
     major: [String],
     technical_skills: [String],
     soft_skills: [String],
-    work_type: String, // careersData uses string
+    work_type: String,
     starting_salary: Number,
     mbti_fit: [String],
     avg_working_hours: Number,
@@ -160,9 +160,20 @@ function calculateCareerScore(career, user) {
 
 // Save User Survey
 app.post("/survey", async (req, res) => {
-    const newUser = await User.create(req.body);
+    const clean = {
+        education: req.body.education,
+        major: safeArray(req.body.major),
+        technical_skills: safeArray(req.body.technical_skills),
+        soft_skills: safeArray(req.body.soft_skills),
+        industry: req.body.industry,
+        work_type: safeArray(req.body.work_type),
+        mbti: req.body.mbti
+    };
+
+    const newUser = await User.create(clean);
     res.json({ userId: newUser._id });
 });
+
 
 
 // Fetch User
