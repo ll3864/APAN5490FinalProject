@@ -258,6 +258,8 @@ let selectedSoftSkills = [];
 document.addEventListener("DOMContentLoaded", () => {
     const surveyForm = document.getElementById("surveyForm");
     const resultsContainer = document.getElementById("results");
+    const loginForm = document.getElementById("loginForm");
+    const profileName = document.getElementById("profileName"); // Check for profile page
 
     if (surveyForm) {
         setupSurveyForm(surveyForm);
@@ -269,7 +271,203 @@ document.addEventListener("DOMContentLoaded", () => {
     if (resultsContainer) {
         loadResults(resultsContainer);
     }
+
+    if (loginForm) {
+        setupAuth(loginForm);
+    }
+
+    if (profileName) { // NEW: Only on profile page
+        loadProfile();
+    }
+    
+    updateNavigation();
 });
+
+
+// AUTH LOGIC
+function setupAuth(form) {
+    const toggleBtn = document.getElementById("toggleAuth");
+    const authTitle = document.getElementById("authTitle");
+    const authSubmitBtn = document.getElementById("authSubmitBtn");
+    const nameGroup = document.getElementById("nameGroup");
+    const nameInput = nameGroup.querySelector("input");
+    
+    let isSignUp = false;
+
+    toggleBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        isSignUp = !isSignUp;
+
+        if (isSignUp) {
+            authTitle.textContent = "Create an account";
+            authSubmitBtn.textContent = "Sign Up";
+            toggleBtn.textContent = "Sign in";
+            // Safer text replacement
+            const parent = toggleBtn.parentElement;
+            parent.childNodes[0].textContent = "Already have an account? ";
+            nameGroup.classList.remove("hidden");
+            nameInput.required = true;
+        } else {
+            authTitle.textContent = "Sign into your account";
+            authSubmitBtn.textContent = "Sign In";
+            toggleBtn.textContent = "Sign up";
+            const parent = toggleBtn.parentElement;
+            parent.childNodes[0].textContent = "Don't have an account? ";
+            nameGroup.classList.add("hidden");
+            nameInput.required = false;
+        }
+    });
+
+    form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(form);
+        const email = formData.get("email");
+        const password = formData.get("password");
+        const name = formData.get("name");
+
+        const endpoint = isSignUp ? "/register" : "/login";
+        const payload = isSignUp ? { email, password, name } : { email, password };
+
+        try {
+            console.log(`Attempting ${isSignUp ? 'Register' : 'Login'} to ${endpoint}...`);
+            const res = await fetch(endpoint, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            });
+
+            const data = await res.json();
+
+            if (res.ok) {
+                console.log("Auth success:", data);
+                // Login/Register Success
+                localStorage.setItem("userId", data.userId);
+                if (data.name) localStorage.setItem("userName", data.name);
+                
+                alert(isSignUp ? "Account created! Logging in..." : "Login Successful!");
+                window.location.href = "index.html";
+            } else {
+                console.warn("Auth failed:", data);
+                alert(data.error || "Authentication failed");
+            }
+        } catch (err) {
+            console.error("Network Error Details:", err);
+            alert("Network error: " + err.message + ". Ensure server is running at http://localhost:3001");
+        }
+    });
+}
+
+function updateNavigation() {
+    const userId = localStorage.getItem("userId");
+    
+    // Select ALL instances (Header and Footer)
+    const profileLinks = document.querySelectorAll('a[href="profile.html"]');
+    const signinLinks = document.querySelectorAll('a[href="signin.html"]');
+
+    if (userId) {
+        // === LOGGED IN ===
+        
+        // 1. Profile Links: Ensure visible
+        profileLinks.forEach(link => {
+            link.style.display = "inline-block";
+        });
+
+        // 2. Sign In Links -> Turn into "Log Out"
+        signinLinks.forEach(link => {
+            link.textContent = "Log Out";
+            link.href = "#";
+            link.style.display = "inline-block";
+            
+            // Clone to strip existing listeners, then add Logout listener
+            const newLink = link.cloneNode(true);
+            link.parentNode.replaceChild(newLink, link);
+            
+            newLink.addEventListener("click", (e) => {
+                e.preventDefault();
+                localStorage.removeItem("userId");
+                localStorage.removeItem("userName");
+                alert("Logged out successfully.");
+                window.location.href = "index.html";
+            });
+        });
+
+    } else {
+        // === LOGGED OUT ===
+        
+        // 1. Profile Links: Hide or keep (Let's keep visible but they redirect to signin due to page logic)
+        // To avoid confusion, let's actually hide them on Home/nav if not logged in
+        // or let them click and be redirected by the profile.html logic.
+        // User rule asked for "functional", so let's leave them as is (href="profile.html").
+        profileLinks.forEach(link => {
+             link.style.display = "inline-block"; 
+        });
+
+        // 2. Sign In Links: Reset to default
+        // We can't easily "reset" a cloned node that was turned into a logout button without reloading the page,
+        // but since this runs on page load, it handles the initial state correctly.
+        // If we just logged out, the page reloads (window.location.href="index.html"), so this else block runs clean.
+    }
+}
+
+// PROFILE LOGIC (NEW)
+async function loadProfile() {
+    const userId = localStorage.getItem("userId");
+    
+    if (!userId) {
+        // Redirect if not logged in
+        window.location.href = "signin.html";
+        return;
+    }
+
+    try {
+        const res = await fetch(`/user/${userId}`);
+        if (!res.ok) throw new Error("Failed to fetch profile");
+        
+        const user = await res.json();
+        
+        // Populate Header
+        document.getElementById("profileName").textContent = user.name || "User";
+
+        // Populate Personal Overview
+        setText("pEducation", user.education);
+        setText("pIndustry", user.industry);
+        
+        // Work Mode: Join array if multiple, else show single or placeholder
+        const workMode = Array.isArray(user.work_type) ? user.work_type.join(", ") : user.work_type;
+        setText("pWorkMode", workMode);
+        
+        setText("pMbti", user.mbti);
+
+        // Populate Skills
+        const skillsContainer = document.getElementById("pSkills");
+        const allSkills = [...(user.technical_skills || []), ...(user.soft_skills || [])];
+        
+        if (allSkills.length > 0) {
+            skillsContainer.innerHTML = allSkills.map(s => `<span class="skill-tag">${s}</span>`).join("");
+        }
+
+        // Populate Interests (Using Major for now as proxy, or industry)
+        const interestsContainer = document.getElementById("pInterests");
+        const majors = Array.isArray(user.major) ? user.major : (user.major ? [user.major] : []);
+        
+        if (majors.length > 0) {
+            interestsContainer.innerHTML = majors.map(m => `<span class="skill-tag" style="background:#f3f4f6; color:#374151;">${m}</span>`).join("");
+        } else if (user.industry) {
+             interestsContainer.innerHTML = `<span class="skill-tag" style="background:#f3f4f6; color:#374151;">${user.industry}</span>`;
+        }
+
+    } catch (err) {
+        console.error(err);
+        document.getElementById("profileName").textContent = "Error loading profile";
+    }
+}
+
+function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) {
+        el.textContent = value || "-";
+    }
+}
 
 
 // Survey submit
@@ -317,6 +515,12 @@ function setupSurveyForm(form) {
         data.major = fd.get("major") ? JSON.parse(fd.get("major")) : [];
         data.technical_skills = fd.get("technical_skills") ? JSON.parse(fd.get("technical_skills")) : [];
         data.soft_skills = fd.get("soft_skills") ? JSON.parse(fd.get("soft_skills")) : [];
+
+        // ATTACH USER ID IF LOGGED IN
+        const userId = localStorage.getItem("userId");
+        if (userId) {
+            data.userId = userId;
+        }
 
         try {
             const res  = await fetch("/survey", {

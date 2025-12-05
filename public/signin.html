@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>CareerCompass | Sign In</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="page-auth">
+
+<header class="navbar">
+    <div class="nav-inner">
+        <div class="nav-left">
+            <div class="logo-icon"></div>
+            <span class="logo-text">CareerCompass</span>
+        </div>
+        <nav class="nav-links">
+            <a href="index.html" class="nav-link">Home Page</a>
+            <a href="faq.html" class="nav-link">FAQs</a>
+            <a href="contact.html" class="nav-link">Contact Us</a>
+            <a href="signin.html" class="nav-link active">Sign In</a>
+            <a href="profile.html" class="nav-link">My Profile</a>
+        </nav>
+    </div>
+</header>
+
+<main class="main-wrapper auth-wrapper">
+    <div class="auth-card">
+        <h1 id="authTitle">Sign into your account</h1>
+        
+        <form id="loginForm" class="auth-form">
+            <div class="form-group hidden" id="nameGroup">
+                <input type="text" name="name" placeholder="Full Name" class="auth-input">
+            </div>
+
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email Address" required class="auth-input">
+            </div>
+            
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" required class="auth-input">
+            </div>
+
+            <div class="auth-actions">
+                <label class="remember-me">
+                    <input type="checkbox" name="remember"> Remember Me
+                </label>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+
+            <button type="submit" class="btn-primary full-width" id="authSubmitBtn">Sign In</button>
+            
+            <p class="auth-toggle-text">
+                Don't have an account? <a href="#" id="toggleAuth">Sign up</a>
+            </p>
+        </form>
+    </div>
+</main>
+
+<footer class="footer">
+    <div class="footer-inner">
+        <div class="footer-left">
+            <div class="logo-icon small"></div>
+            <div>
+                <div class="footer-logo-text">CareerCompass</div>
+                <div class="footer-tagline">Helping people find careers that fit who they truly are.</div>
+            </div>
+        </div>
+
+        <div class="footer-links">
+            <a href="index.html">Home Page</a>
+            <a href="contact.html">Contact Us</a>
+            <a href="faq.html">FAQs</a>
+            <a href="signin.html">Sign In</a>
+            <a href="#">Return to Top</a>
+        </div>
+    </div>
+
+    <p class="footer-bottom">© 2025 CareerCompass. All rights reserved.</p>
+</footer>
+
+<script src="main.js"></script>
+</body>
+</html>

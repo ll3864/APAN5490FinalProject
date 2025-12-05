@@ -16,6 +16,12 @@ mongoose.connect("mongodb://127.0.0.1:27017/career_matching")
 
 // Models
 const userSchema = new mongoose.Schema({
+    // Auth Fields
+    email: { type: String, unique: true, sparse: true },
+    password: { type: String },
+    name: String,
+
+    // Survey Fields (Optional now)
     education: String,
     major: [String],
     technical_skills: [String],
@@ -158,6 +164,42 @@ function calculateCareerScore(career, user) {
 })();
 
 
+// Register
+app.post("/register", async (req, res) => {
+    try {
+        const { email, password, name } = req.body;
+        if (!email || !password) return res.status(400).json({ error: "Email and password required" });
+
+        const existing = await User.findOne({ email });
+        if (existing) return res.status(400).json({ error: "User already exists" });
+
+        const newUser = await User.create({ email, password, name });
+        res.json({ userId: newUser._id, name: newUser.name });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Registration failed" });
+    }
+});
+
+
+// Login
+app.post("/login", async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await User.findOne({ email });
+
+        if (!user || user.password !== password) {
+            return res.status(401).json({ error: "Invalid credentials" });
+        }
+
+        res.json({ userId: user._id, name: user.name });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ error: "Login failed" });
+    }
+});
+
+
 // Save User Survey
 app.post("/survey", async (req, res) => {
     const clean = {
@@ -170,6 +212,17 @@ app.post("/survey", async (req, res) => {
         mbti: req.body.mbti
     };
 
+    // If userId is provided, update existing user
+    if (req.body.userId) {
+        try {
+            await User.findByIdAndUpdate(req.body.userId, clean);
+            return res.json({ userId: req.body.userId });
+        } catch (err) {
+            return res.status(500).json({ error: "Failed to update user" });
+        }
+    }
+
+    // Otherwise create new (anonymous)
     const newUser = await User.create(clean);
     res.json({ userId: newUser._id });
 });

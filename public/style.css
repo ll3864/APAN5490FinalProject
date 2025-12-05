@@ -142,6 +142,27 @@ button.btn-primary {
     background: #d1d5db;
 }
 
+/* Secondary Blue (Used in Profile) */
+.btn-secondary-blue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #eef2ff;
+    color: #4f46e5;
+    font-weight: 600;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.btn-secondary-blue:hover {
+    background: #e0e7ff;
+}
+
+
 button {
     font-family: inherit;
 }
@@ -496,24 +517,6 @@ button {
     gap: 10px;
 }
 
-.logo-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 50%;
-    border: 2px solid #3b82f6;
-    color: #3b82f6;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-}
-
-.logo-text {
-    font-size: 22px;
-    font-weight: 600;
-}
-
-
 /* Hero area */
 .survey-hero {
     text-align: center;
@@ -590,6 +593,223 @@ button {
 }
 
 
+/* ====== Auth Pages (Sign In) ====== */
+
+.auth-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: calc(100vh - 300px); /* Adjust based on header/footer height */
+    padding-top: 60px;
+    padding-bottom: 60px;
+}
+
+.auth-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 480px;
+    padding: 48px;
+    border-radius: 24px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04); /* Soft shadow */
+    text-align: center;
+}
+
+.auth-card h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin-bottom: 32px;
+    color: #111827;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.auth-input {
+    width: 100%;
+    padding: 14px 16px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px; /* Rounded corners for inputs */
+    font-size: 15px;
+    color: #111827;
+    outline: none;
+    transition: border-color 0.2s;
+    background: #f9fafb;
+}
+
+.auth-input:focus {
+    border-color: #4f46e5;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.auth-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 13px;
+    color: #4b5563;
+    margin-bottom: 8px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    cursor: pointer;
+}
+
+.forgot-password {
+    color: #111827;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.btn-primary.full-width {
+    width: 100%;
+    justify-content: center;
+    font-size: 16px;
+    padding: 14px;
+}
+
+/* Auth Toggle */
+.hidden {
+    display: none;
+}
+
+.auth-toggle-text {
+    margin-top: 16px;
+    font-size: 14px;
+    color: #6b7280;
+}
+
+.auth-toggle-text a {
+    color: #4f46e5;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+
+/* ====== Profile Page ====== */
+
+.page-profile {
+    background: #f5f7ff; /* Matches global, but can be specific if needed */
+}
+
+.profile-header-card {
+    display: flex;
+    align-items: center;
+    background: #f0f9ff; /* Light blue tint from design */
+    padding: 40px;
+    border-radius: 24px;
+    margin-bottom: 32px;
+    gap: 32px;
+    flex-wrap: wrap;
+}
+
+.profile-avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+}
+
+.profile-info {
+    flex: 1;
+}
+
+.profile-info h1 {
+    font-size: 28px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.profile-actions {
+    display: flex;
+    gap: 12px;
+}
+
+/* Button tweaks for profile (light blue/purple background) */
+.profile-actions .btn-secondary {
+    background: #e0e7ff;
+    color: #4338ca;
+    font-weight: 600;
+}
+
+.profile-actions .btn-secondary:hover {
+    background: #c7d2fe;
+}
+
+.profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+}
+
+.profile-card {
+    background: #ffffff;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    min-height: 300px; /* Ensure cards have height like design */
+}
+
+.profile-card h3 {
+    font-size: 20px;
+    margin-bottom: 24px;
+    text-align: center;
+    font-weight: 700;
+}
+
+.stat-item {
+    margin-bottom: 16px;
+    text-align: center;
+}
+
+.stat-item label {
+    display: block;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #111827;
+}
+
+.stat-item span {
+    font-size: 15px;
+    color: #4b5563;
+}
+
+.empty-state {
+    text-align: center;
+    color: #9ca3af;
+    font-style: italic;
+}
+
+/* List styling for skills */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+}
+
+.skill-tag {
+    background: #eff6ff;
+    color: #1d4ed8;
+    padding: 6px 12px;
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+}
+
+
 /* ====== Responsive ====== */
 
 @media (max-width: 900px) {
@@ -609,6 +829,20 @@ button {
 
     .nav-links {
         justify-content: flex-end;
+    }
+    
+    /* Profile Responsive */
+    .profile-header-card {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+        padding: 32px 24px;
+    }
+    
+    .profile-actions {
+        width: 100%;
+        justify-content: center;
+        flex-wrap: wrap;
     }
 }
 
@@ -634,5 +868,13 @@ button {
     .footer-inner {
         flex-direction: column;
         align-items: flex-start;
+    }
+    
+    .auth-card {
+        padding: 32px 20px;
+    }
+    
+    .profile-actions {
+        flex-direction: column;
     }
 }
